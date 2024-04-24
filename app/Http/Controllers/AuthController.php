@@ -38,8 +38,9 @@ class AuthController extends Controller
             'access_token'  => $token->plainTextToken,
             'user' => [
                 'id'    =>  $user->id,
-                'name'  =>  $user->names.' '.$user->lastname1.(is_null($user->lastname2) ? '' : ' '.$user->lastname2),                
+                'name'  =>  $user->names.' '.$user->lastname1.(is_null($user->lastname2) ? '' : ' '.$user->lastname2),        
             ],
+            'role'  => $user->role,
             'expires_at'=>  Carbon::parse($token->expires_at)->toDateString()
         ]);
 

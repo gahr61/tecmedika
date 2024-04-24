@@ -6,7 +6,8 @@ const Input = ({
     value,
     handleChange,
     setError,
-    required
+    required,
+    disabled
 })=>{
 
     /**
@@ -47,6 +48,7 @@ const Input = ({
                 })
             }
             required={required}
+            disabled={disabled}
         />
         
     )
@@ -59,5 +61,6 @@ Input.defaultProps = {
     value: '',
     handleChange: ()=>{},
     setError: ()=>{},
-    required: false
+    required: false,
+    disabled: false
 }

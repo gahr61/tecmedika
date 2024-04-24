@@ -67,6 +67,7 @@ const Login = ()=>{
                 encript('token', response.access_token);
                 encript('user', JSON.stringify(response.user));
                 encript('expires_at', response.expires_at);
+                encript('role', response.role);
                 navigate('/');
             }            
         }
