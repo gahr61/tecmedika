@@ -45,4 +45,19 @@ class AuthController extends Controller
         ]);
 
     }
+
+    public function logout(Request $request){
+        try{
+            $user = auth()->user();
+            
+            $user->tokens()->delete();
+
+            return response()->json(['message'=>'Sesión finalizada']);
+        }catch(\Exception $e){
+            return response()->json([
+                'error'=>'ERROR ('.$e->getCode().'): '.$e->getMessage()
+            ]);
+        }
+        
+    }
 }

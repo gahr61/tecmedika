@@ -42,12 +42,15 @@ return new class extends Migration
         Schema::create('appointment', function(Blueprint $table){
             $table->id();
             $table->bigInteger('patients_id')->unsigned()->index();
+            $table->bigInteger('doctors_id')->unsigned()->index();
+            $table->string('folio');
             $table->date('date');
             $table->time('time');
             $table->enum('status', ['Activa', 'Vencida', 'Terminada'])->default('Activa');
             $table->timestamps();
 
             $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('cascade');
         });
 
     }
