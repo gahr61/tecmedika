@@ -119,19 +119,21 @@ export const fetchRequest = ({
     url,
     method = 'GET',
     body = null,
-    requireToken = true
+    requireToken = true,
+	isFile = false
 })=>{
     let token = decript('token');
 
     return fetch(api+url,{
         method:method,
         body: body !== null ? JSON.stringify(body) : null,
+		responseType: isFile ? 'blob' : null,
         headers: new Headers(
             requireToken ?
                 {
                     'Authorization' : 'Bearer '+token,
                     'Content-Type'  : 'application/json',
-                    'Accept'        : 'application/json'
+                    'Accept'        : isFile ? 'application/pdf' : 'application/json'
                 }
             : 
                 {
@@ -141,7 +143,7 @@ export const fetchRequest = ({
         )
     }).then(res => {
         if(res.ok){
-            return res.json();
+            return isFile ? res.blob() : res.json();
         }else{
             res.text().then(msg => console.log(msg));
         }
@@ -200,7 +202,7 @@ export const isAuth = ()=>{
 export const showCtrlError = (id)=>{
 	var res = null;
 	var control = document.getElementById(id);
-	console.log(control)
+	
 	if(control !== null && control.value !== undefined){
 		if (control.value.trim() === "") {
 	        if(control !== null){
@@ -231,3 +233,14 @@ export const message = (type, text)=>(
 		<strong>{type}!</strong> {text}
 	</Message>
 )
+
+/**
+ * Abre documento en nuevo tab
+ * @param {*} response 
+ */
+export const openFileNewWindow = (response)=>{	
+	var blob = new Blob([response], {type: 'application/pdf'})
+	var url = URL.createObjectURL(blob);
+	//var fileURL = URL.createObjectURL(response);
+	window.open(url);
+}

@@ -8,6 +8,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\ClinicHistoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,5 +48,9 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::get('appointments/edit/{id}', [AppointmentsController::class, 'edit']);
     Route::put('appointments/update/{id}', [AppointmentsController::class, 'update']);
     Route::delete('appointments/delete/{id}', [AppointmentsController::class, 'delete']);
+
+    Route::get('clinic_history/appointment/{id}', [ClinicHistoryController::class, 'getInfoAppintemtClinicHistory']);
+    Route::post('clinic_history', [ClinicHistoryController::class, 'store']);
+    Route::get('clinic_history/document/{id}', [ClinicHistoryController::class, 'print']);
 });
 

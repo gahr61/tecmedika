@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Appointments;
+use App\Models\ClinicHistory;
 
 class AppointmentsController extends Controller
 {
@@ -61,12 +62,12 @@ class AppointmentsController extends Controller
                                     'patients.names as patient_names', 'patients.lastname1 as patient_lastname1', 'patients.lastname2 as patient_lastname2',
                                     'doctors.names as doctor_names', 'doctors.lastname1 as doctor_lastname1', 'doctors.lastname2 as doctor_lastname2'
                                 );
-        
+ 
         $user_role = auth()->user()->role;
 
         if($user_role == 'Doctor'){
             $doctor_id = $this->getDoctorsId();
-            $appointments = $appointments->where('appointment.id', $doctor_id);
+            $appointments = $appointments->where('appointment.doctors_id', $doctor_id);
         }
 
         if($status != 'all'){
@@ -74,6 +75,15 @@ class AppointmentsController extends Controller
         }
 
         $appointments = $appointments->get();
+
+        foreach($appointments as $appointment){
+            $clinic_history = ClinicHistory::select('id')->where('appointment_id', $appointment->id)->first();
+
+            $appointment['clinic_history_id'] = null;
+            if(isset($clinic_history)){
+                $appointment['clinic_history_id'] = $clinic_history->id;
+            }
+        }
 
         return response()->json($appointments);
 

@@ -1,6 +1,5 @@
-import { ButtonGroup, Col, Divider, Grid, IconButton, Row, useToaster } from "rsuite"
+import { ButtonGroup, Col, Divider, Grid, Row, useToaster } from "rsuite"
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import moment from "moment";
 
@@ -15,14 +14,16 @@ import SelectForm from "../../components/Select";
 import ModalForm from "./ModalForm";
 import Button from "../../components/Button";
 
-import { decript, message } from "../../libs/functions";
+import { decript, message, openFileNewWindow } from "../../libs/functions";
 import { appointments, appointmentsDelete } from "../../services/appointments";
+import ModalClinicHistory from "./ModalClinicHistory";
+import { clinicHistoryPrint } from "../../services/clinicHistory,";
 
 
 const AppointmentsList = ()=>{
-    const navigate = useNavigate();
     const toaster = useToaster();
     const modal = useRef();
+    const clinicRef = useRef();
     const role = decript('role');
 
     const columns = [
@@ -38,13 +39,13 @@ const AppointmentsList = ()=>{
                         <IconButtonTooltip 
                             icon={<DetailIcon />}
                             text={'Historia clínica'}
-                            action={()=>onEdit(row.id)}
-                            disabled={row.col5 !== 'Terminada'}
+                            action={()=>downloadDocument(row.clinic_history_id)}
+                            disabled={row.col5 !== 'Terminada' }
                         />
                         <IconButtonTooltip 
                             icon={<AdminIcon />}
                             text={'Iniciar cita'}
-                            action={()=>onEdit(row.id)}
+                            action={()=>openClinicHistory(row.id)}
                             disabled={row.col5 !== 'Activa'}
                         />
                         <IconButtonTooltip 
@@ -57,6 +58,7 @@ const AppointmentsList = ()=>{
                             icon={<TrashIcon />}
                             text={'Cancelar'}
                             action={()=>onDelete(row.id)}
+                            disabled={row.col5 !== 'Activa' && row.col5 !== 'Vencida'}
                         />
                     </ButtonGroup>
                 </Fragment>
@@ -116,6 +118,13 @@ const AppointmentsList = ()=>{
         
     }
 
+    const downloadDocument = async (id)=>{
+        let response = await clinicHistoryPrint(id);
+        if(response){
+             openFileNewWindow(response);
+        }
+    }
+
     /**
      * Obtiene listado de citas
      */
@@ -125,6 +134,7 @@ const AppointmentsList = ()=>{
             let items = response.map((res)=>{
                 let item = {
                     id: res.id,
+                    clinic_history_id: res.clinic_history_id,
                     col1: res.folio,
                     col2: moment(res.date).format('DD/MM/YYYY')+' '+moment(res.time, 'HH:mm:ss').format('HH:mm'),
                     col3: res.patient_names+' '+res.patient_lastname1+(res.patient_lastname2 !== null ? ' '+res.patient_lastname2 :''),
@@ -137,6 +147,11 @@ const AppointmentsList = ()=>{
 
             setData(items);
         }
+    }
+
+
+    const openClinicHistory = (id)=>{
+        clinicRef.current.handleShow(id);
     }
 
     useEffect(()=>{
@@ -180,6 +195,10 @@ const AppointmentsList = ()=>{
             <ModalForm 
                 getData={getData}
                 ref={modal}
+            />
+            <ModalClinicHistory
+                getData={getData} 
+                ref={clinicRef}
             />
         </Grid>
     )

@@ -23,22 +23,6 @@ return new class extends Migration
             $table->timestamps();            
         });
 
-        Schema::create('clinic_history', function(Blueprint $table){
-            $table->id();
-            $table->bigInteger('patients_id')->unsigned()->index();
-            $table->bigInteger('doctors_id')->unsigned()->index();
-            $table->string('weight', 10)->nullable();
-            $table->string('height', 10)->nullable();
-            $table->string('visit_reason', 200);
-            $table->string('diagnosis', 250);
-            $table->string('treatment', 300);
-            $table->string('notes', 500);
-            $table->timestamps();
-
-            $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('cascade');
-        });
-
         Schema::create('appointment', function(Blueprint $table){
             $table->id();
             $table->bigInteger('patients_id')->unsigned()->index();
@@ -52,6 +36,25 @@ return new class extends Migration
             $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('cascade');
         });
+
+        Schema::create('clinic_history', function(Blueprint $table){
+            $table->id();
+            $table->bigInteger('patients_id')->unsigned()->index();
+            $table->bigInteger('doctors_id')->unsigned()->index();
+            $table->bigInteger('appointment_id')->unsigned()->index();
+            $table->date('date');
+            $table->string('weight', 10)->nullable();
+            $table->string('height', 10)->nullable();
+            $table->string('visit_reason', 200);
+            $table->string('diagnosis', 250);
+            $table->string('treatment', 300);
+            $table->string('notes', 500)->nullable();
+            $table->timestamps();
+
+            $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('cascade');
+            $table->foreign('appointment_id')->references('id')->on('appointment')->onDelete('cascade');
+        });      
 
     }
 
