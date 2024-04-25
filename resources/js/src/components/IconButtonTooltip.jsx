@@ -16,7 +16,8 @@ const IconButtonTooltip = ({
     size = 'md',
     appearance = 'default',
     color = 'blue',
-    circle = false
+    circle = false,
+    disabled = false
 })=>{
     const tooltipRef = useRef(null);
     return(
@@ -34,6 +35,7 @@ const IconButtonTooltip = ({
                 icon={icon} 
                 onClick={()=>action()}
                 circle={circle}
+                disabled={disabled}
             />
         </Whisper>
     )

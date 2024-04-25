@@ -46,7 +46,7 @@ return new class extends Migration
             $table->string('folio');
             $table->date('date');
             $table->time('time');
-            $table->enum('status', ['Activa', 'Vencida', 'Terminada'])->default('Activa');
+            $table->enum('status', ['Activa', 'Vencida', 'Terminada', 'Cancelada'])->default('Activa');
             $table->timestamps();
 
             $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');

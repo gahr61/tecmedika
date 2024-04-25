@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\DoctorsController;
-
+use App\Http\Controllers\AppointmentsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,7 +37,14 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::get('patients/edit/{id}', [PatientsController::class, 'edit']);
     Route::put('patients/update/{id}', [PatientsController::class, 'update']);
     Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
+    Route::get('patients/list', [PatientsController::class, 'list']);
 
     Route::get('doctors/list', [DoctorsController::class, 'list']);
+
+    Route::post('appointments', [AppointmentsController::class, 'store']);
+    Route::get('appointments/status/{status}', [AppointmentsController::class, 'list']);
+    Route::get('appointments/edit/{id}', [AppointmentsController::class, 'edit']);
+    Route::put('appointments/update/{id}', [AppointmentsController::class, 'update']);
+    Route::delete('appointments/delete/{id}', [AppointmentsController::class, 'delete']);
 });
 

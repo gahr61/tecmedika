@@ -5,6 +5,9 @@ table{
 .align-items-center{
     align-items: center;
 }
+.align-items-end{
+    align-items: end;
+}
 
 .border{
     border: 1px solid #ced4da;

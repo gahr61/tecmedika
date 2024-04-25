@@ -46,6 +46,15 @@ class PatientsController extends Controller
         }
     }
 
+    /**
+     * Obtiene listado de pacientes para llenar campos tipo combo
+     */
+    public function list(){
+        $patients = Patients::select('id', 'names', 'lastname1', 'lastname2')->get();
+
+        return response()->json($patients);
+    }
+
 
     /**
      * Obtiene los datos de un paciente.

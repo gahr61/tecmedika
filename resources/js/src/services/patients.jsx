@@ -27,6 +27,13 @@ export const patientsDelete = (id)=>{
 }
 
 /**
+ * Obtiene listado de paciente para lledando de campos tipo combo
+ */
+export const patientsList = ()=>{
+    return fetchRequest({url:'patients/list'});
+}
+
+/**
  * Guarda datos de paciente
  * @param {*} obj 
  * @returns 

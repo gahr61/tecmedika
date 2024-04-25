@@ -7,7 +7,8 @@ const Input = ({
     handleChange,
     setError,
     required,
-    disabled
+    disabled,
+    min
 })=>{
 
     /**
@@ -47,6 +48,7 @@ const Input = ({
             value={value}
             id={id}
             name={id}
+            min={min}
             onChange={(val)=>
                 onChange({
                     name: id,
@@ -68,5 +70,6 @@ Input.defaultProps = {
     handleChange: ()=>{},
     setError: ()=>{},
     required: false,
-    disabled: false
+    disabled: false,
+    min: ''
 }

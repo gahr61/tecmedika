@@ -5,6 +5,23 @@ const api = import.meta.env.VITE_HOST;
 const manage = import.meta.env.VITE_SECRET;
 
 /**
+ * Agrega clase de rror a campos tipo combo
+ * @param {*} id 
+ * @param {*} value 
+ */
+export const addErrorToSelectedField = (id, value)=>{
+	let field = document.getElementById(id);
+            
+	if(field !== null){
+		if(value === ''){
+			field.classList.add('error');
+		}else{
+			field.classList.remove('error');
+		}
+	}	
+}
+
+/**
  * Varifica que un campo sea correo electronico
  * @param {*} value 
  * @returns boolean
