@@ -48,7 +48,10 @@ class ClinicHistoryController extends Controller
 
             \DB::commit();
 
-            return response()->json([ 'message' => 'La historia clinica se registro correctamente' ]);
+            return response()->json([ 
+                'message' => 'La historia clinica se registro correctamente' ,
+                'clinic_history' => $clinic_history->id
+            ]);
         }catch(\Exception $e){
             \DB::rollback();
 

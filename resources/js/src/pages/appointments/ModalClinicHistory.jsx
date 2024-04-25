@@ -2,9 +2,9 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import moment from "moment";
 import { Col, Grid, Message, Modal, Row, useToaster } from "rsuite";
 import Button from "../../components/Button";
-import { clinicHistoryAppointment, clinicHistorySave } from "../../services/clinicHistory,";
+import { clinicHistoryAppointment, clinicHistoryPrint, clinicHistorySave } from "../../services/clinicHistory,";
 import Input from "../../components/Input";
-import { isValidForm, message, showCtrlError } from "../../libs/functions";
+import { isValidForm, message, openFileNewWindow, showCtrlError } from "../../libs/functions";
 
 const ModalClinicHistory = forwardRef(({
     getData
@@ -38,6 +38,7 @@ const ModalClinicHistory = forwardRef(({
     });
     const [saved, setSaved] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [clinicHistoryId, setClinicHistoryId] = useState('');
 
     /**
      * abre el modal de historia clinica
@@ -72,6 +73,33 @@ const ModalClinicHistory = forwardRef(({
      */
     const handleClose = ()=>{
         setOpen(false);
+        setAppointment({
+            id:'',
+            folio:'',
+            patient:{
+                id:'',
+                full_name:'',
+                age:''
+            },
+            doctor:{
+                id:'',
+                full_name:'',
+            }
+        })
+        setClinicHistory({
+            patients_id:'',
+            doctors_id:'',
+            appointment_id:'',
+            date:moment().format('YYYY-MM-DD'),
+            weight:'',
+            height:'',
+            visit_reason:'',
+            diagnosis:'',
+            treatment:'',
+            notes:''
+        });
+        setSaved(false);
+        setErrorMessage('')
     }
 
     /**
@@ -95,6 +123,10 @@ const ModalClinicHistory = forwardRef(({
         }
     }
 
+    /**
+     * Guarda datos de historia clinica
+     * @returns 
+     */
     const onSubmit = async ()=>{
         let error = '';
 
@@ -118,13 +150,21 @@ const ModalClinicHistory = forwardRef(({
             }else{
                 toaster.push(message('success', response.message), {placement:'topCenter', duration:'4000'});
                 getData();
-                setSaved(true)                
+                setClinicHistoryId(response.clinic_history);
+                setSaved(true);
             }
         }
     }
 
-    const downloadDocument = ()=>{
-
+    /**
+     * Muestra el documento de historia clinica
+     * @param {*} id 
+     */
+    const downloadDocument = async ()=>{
+        let response = await clinicHistoryPrint(clinicHistoryId);
+        if(response){
+             openFileNewWindow(response);
+        }
     }
 
     useImperativeHandle(ref, ()=>({

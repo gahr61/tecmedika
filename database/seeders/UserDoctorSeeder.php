@@ -29,7 +29,7 @@ class UserDoctorSeeder extends Seeder
             'names'=>'Rogelio',
             'lastname1'=>'Gámez',
             'email'=>'sistemas@tecmedika.com',
-            'password'=>bcrypt('S15t3m@@s'),
+            'password'=>bcrypt('admin'),
             'role'=>'Administrador de sistema'
         ]);
 
@@ -42,7 +42,7 @@ class UserDoctorSeeder extends Seeder
             'names'=>'Ricardo',
             'lastname1'=>'Gonzalez',
             'email'=>'rgonzalez@tecmedika.com',
-            'password'=>bcrypt('S15t3m@@s'),
+            'password'=>bcrypt('doc1'),
             'role'=>'Doctor'
         ]);
 
@@ -64,7 +64,7 @@ class UserDoctorSeeder extends Seeder
             'names'=>'Viridiana',
             'lastname1'=>'Escalante',
             'email'=>'vescalante@tecmedika.com',
-            'password'=>bcrypt('S15t3m@@s'),
+            'password'=>bcrypt('doc2'),
             'role'=>'Doctor'
         ]);
 
@@ -87,7 +87,7 @@ class UserDoctorSeeder extends Seeder
             'lastname1'=>'López',
             'lastname2'=>'López',
             'email'=>'alopez@tecmedika.com',
-            'password'=>bcrypt('S15t3m@@s'),
+            'password'=>bcrypt('doc3'),
             'role'=>'Doctor'
         ]);
 
