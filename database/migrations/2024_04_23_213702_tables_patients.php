@@ -44,7 +44,7 @@ return new class extends Migration
             $table->bigInteger('patients_id')->unsigned()->index();
             $table->date('date');
             $table->time('time');
-            $table->boolean('isFinished')->default(false);
+            $table->enum('status', ['Activa', 'Vencida', 'Terminada'])->default('Activa');
             $table->timestamps();
 
             $table->foreign('patients_id')->references('id')->on('patients')->onDelete('cascade');

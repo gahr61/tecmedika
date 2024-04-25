@@ -2,10 +2,8 @@ import { ButtonGroup, Col, Divider, Grid, IconButton, Row } from "rsuite"
 import { Fragment, useEffect, useState } from "react";
 
 import EditIcon from '@rsuite/icons/Edit';
-import TrashIcon from '@rsuite/icons/Trash';
 
 import Table from "../../components/Table";
-import Input from '../../components/Input';
 import IconButtonTooltip from "../../components/IconButtonTooltip";
 
 import { users } from "../../services/users";
@@ -15,10 +13,10 @@ const UsersList = ()=>{
     const navigate = useNavigate();
 
     const columns = [
-        {label:'Nombre', selector: row => row.col1},
-        {label:'Correo electrónico', selector: row => row.col2},
-        {label:'Rol', selector: row => row.col3},
-        {label:'Estatus', selector: row => row.col4},
+        {label:'Nombre', selector: row => row.col1, show:true},
+        {label:'Correo electrónico', selector: row => row.col2, show:true},
+        {label:'Rol', selector: row => row.col3, show:true},
+        {label:'Estatus', selector: row => row.col4, show:true},
         {label:'', selector: row => {
             return(
                 <Fragment>
@@ -31,7 +29,7 @@ const UsersList = ()=>{
                     </ButtonGroup>
                 </Fragment>
             )
-        }}
+        }, show: true}
     ];
 
     const [data, setData] = useState([]);

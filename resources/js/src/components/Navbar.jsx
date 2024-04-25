@@ -13,7 +13,7 @@ const Navbar = ()=>{
                 {role !== 'Doctor' && (
                     <Nav.Item onClick={()=>navigate('/users/list')}>Usuarios</Nav.Item>
                 )}                
-                <Nav.Item>Pacientes</Nav.Item>
+                <Nav.Item onClick={()=>navigate('/patients/list')}>Pacientes</Nav.Item>
                 <Nav.Item>Citas</Nav.Item>
             </Nav>
             <Nav pullRight>

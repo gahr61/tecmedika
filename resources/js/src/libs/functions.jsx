@@ -1,4 +1,5 @@
 import cryptoJs from "crypto-js";
+import { Message } from "rsuite";
 
 const api = import.meta.env.VITE_HOST;
 const manage = import.meta.env.VITE_SECRET;
@@ -182,7 +183,8 @@ export const isAuth = ()=>{
 export const showCtrlError = (id)=>{
 	var res = null;
 	var control = document.getElementById(id);
-	if(control !== null){
+	console.log(control)
+	if(control !== null && control.value !== undefined){
 		if (control.value.trim() === "") {
 	        if(control !== null){
 	            control.classList.add('error');
@@ -200,3 +202,15 @@ export const showCtrlError = (id)=>{
 
 	return res;
 };
+
+/**
+ * Muestra mensaje 
+ * @param {*} type tipo de mensaje
+ * @param {*} text texto de mensaje
+ * @returns 
+ */
+export const message = (type, text)=>(
+	<Message showIcon type={type} closable>
+		<strong>{type}!</strong> {text}
+	</Message>
+)

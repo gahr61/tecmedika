@@ -61,7 +61,7 @@ class UsersController extends Controller
             \DB::commit();
 
             return response()->json([
-                'message'=>'El usuarios se actualizao correctamente'
+                'message'=>'El usuarios se actualizo correctamente'
             ]);
         }catch(\Exception $e){
             \DB::rollback();

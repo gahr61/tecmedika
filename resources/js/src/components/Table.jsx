@@ -7,7 +7,9 @@ const Table = ({
             <thead>
                 <tr>
                     {columns.map((column, index)=>
-                        <th key={index}>{column.label}</th>
+                        column.show && (
+                            <th key={index}>{column.label}</th>
+                        )                        
                     )}
                 </tr>
             </thead>
@@ -15,9 +17,11 @@ const Table = ({
                 {data.map((d, index)=>
                     <tr key={index}>
                         {columns.map((col, index1)=>(
-                            <td key={index1}>
-                                {col.selector(d)}
-                            </td>
+                            col.show && (
+                                <td key={index1}>
+                                    {col.selector(d)}
+                                </td>
+                            )
                         ))}
                     </tr>
                 )}

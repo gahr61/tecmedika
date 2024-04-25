@@ -9,6 +9,9 @@ import Layout from "./components/Layout";
 import UsersList from "./pages/users/List";
 import UsersForm from "./pages/users/Form";
 
+import PatientsList from "./pages/patients/List";
+import PatientsForm from "./pages/patients/Form";
+
 const ProtectedRoute = ()=>{
     let auth = isAuth();
     if(!auth){
@@ -29,6 +32,10 @@ const AppRoutes = (props)=>{
 
                     <Route path='/users/list' exact element={<UsersList />} />
                     <Route path='/users/edit/:id' exact element={<UsersForm />} />
+
+                    <Route path='/patients/list' exact element={<PatientsList />} />
+                    <Route path='/patients/new' exact element={<PatientsForm />} />
+                    <Route path='/patients/edit/:id' exact element={<PatientsForm />} />
                 </Route>
                 
             </Route>
