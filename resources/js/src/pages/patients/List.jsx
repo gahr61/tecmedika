@@ -10,9 +10,9 @@ import IconButtonTooltip from "../../components/IconButtonTooltip";
 
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
-import { patients, patientsDelete } from "../../services/patients";
+import { patients, patientsDelete, patientsPrint } from "../../services/patients";
 import Swal from "sweetalert2";
-import { decript, message } from "../../libs/functions";
+import { decript, message, openFileNewWindow } from "../../libs/functions";
 
 const PatientsList = ()=>{
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const PatientsList = ()=>{
                         <IconButtonTooltip 
                             icon={<DetailIcon />}
                             text={'Historia clínica'}
-                            action={()=>onEdit(row.id)}
+                            action={()=>downloadDocument(row.id)}
                         />
                         <IconButtonTooltip 
                             icon={<EditIcon />}
@@ -73,7 +73,6 @@ const PatientsList = ()=>{
         }).then(async (result)=>{
             if(result.isConfirmed){
                 let response = await patientsDelete(id);
-                console.log(response)
                 if(response){
                     if(response.error){
                         toaster.push(message('error', response.error), {placement:'topCenter', duration:'4000'});                        
@@ -104,6 +103,17 @@ const PatientsList = ()=>{
             });
 
             setData(items);
+        }
+    }
+
+     /**
+     * Muestra el documento de historia clinica
+     * @param {*} id 
+     */
+     const downloadDocument = async (id)=>{
+        let response = await patientsPrint(id);
+        if(response){            
+             openFileNewWindow(response);
         }
     }
 

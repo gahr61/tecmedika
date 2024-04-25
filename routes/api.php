@@ -40,6 +40,7 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::put('patients/update/{id}', [PatientsController::class, 'update']);
     Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
     Route::get('patients/list', [PatientsController::class, 'list']);
+    Route::get('patients/print/{id}', [PatientsController::class, 'print']);
 
     Route::get('doctors/list', [DoctorsController::class, 'list']);
 

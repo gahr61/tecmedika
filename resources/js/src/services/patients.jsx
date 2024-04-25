@@ -34,6 +34,14 @@ export const patientsList = ()=>{
 }
 
 /**
+ * Obtiene listado de paciente para lledando de campos tipo combo
+ */
+export const patientsPrint = (id)=>{
+    return fetchRequest({url:'patients/print/'+id, isFile:true});
+}
+
+
+/**
  * Guarda datos de paciente
  * @param {*} obj 
  * @returns 

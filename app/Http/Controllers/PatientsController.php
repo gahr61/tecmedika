@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patients;
 use App\Models\Doctors;
+use App\Models\ClinicHistory;
 
 use Illuminate\Http\Request;
 
@@ -15,10 +16,44 @@ class PatientsController extends Controller
     public function index()
     {
         $patients = Patients::select(
-                            'patients.id', 'patients.names', 'patients.lastname1', 'patients.lastname2', 'patients.email', 'patients.phone',                            
+                            'patients.id', 'patients.names', 'patients.lastname1', 'patients.lastname2', 'patients.email', 'patients.phone',
                         )->get();
 
         return response()->json($patients);
+    }
+
+    /**
+     * Imprime historia clinica de paciente
+     * @param $id identificador de paciente
+     */
+    public function print($id){
+        $patient = Patients::select(
+                        'patients.id', 'patients.names', 'patients.lastname1', 'patients.lastname2', 'patients.email', 'patients.phone',
+                        )->where('id', $id)
+                        ->first();
+
+        $clinic_histories = ClinicHistory::join('doctors', 'doctors.id', 'clinic_history.doctors_id')
+                                    ->select(
+                                        'doctors.id as doctors_id', 'doctors.names as doctor_names', 'doctors.lastname1 as doctor_lastname1', 'doctors.lastname2 as doctor_lastname2',
+                                        'clinic_history.date', 'clinic_history.weight', 'clinic_history.height', 'clinic_history.visit_reason', 'clinic_history.diagnosis', 
+                                        'clinic_history.treatment', 'clinic_history.notes'  
+                                    )
+                                    ->where('clinic_history.patients_id', $patient->id)
+                                    ->get();
+
+        $title = 'Historia clínica - '.$patient->names.' '.$patient->lastname1.(is_null($patient->lastname2) ? '' : ' '.$patient->lastname2).'pdf';
+
+        $months = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $days = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
+
+        $date = $days[date('w')].', '.date('d').' de '.$months[date('m') - 1].' de '.date('Y');
+
+        $view = \View::make('patient_history', compact('title', 'date', 'patient', 'clinic_histories'))->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        return $pdf->stream($title);
     }
 
     /**
