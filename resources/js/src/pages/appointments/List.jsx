@@ -118,6 +118,10 @@ const AppointmentsList = ()=>{
         
     }
 
+    /**
+     * Muestra el documento de historia clinica
+     * @param {*} id 
+     */
     const downloadDocument = async (id)=>{
         let response = await clinicHistoryPrint(id);
         if(response){
